@@ -2,20 +2,12 @@
 #include <map>
 #include <string>
 
-class Scene {
-public:
-  Scene *process(sf::Event);
-  void add_edge(std::string, Scene *);
-
-private:
-  std::map<std::string, Scene *> edges;
-
-  // void init();
-  Scene *navigate(std::string);
-};
+#include "scene.hpp"
 
 int main() {
   sf::RenderWindow window(sf::VideoMode(1280, 720), "Titulo da Janela");
+
+  Scene *game = new GameScene();
 
   while (window.isOpen()) {
     sf::Event event;
@@ -26,10 +18,10 @@ int main() {
       }
     }
 
-    window.clear();
-    // window.draw();
-    window.display();
+    game->process(&event, &window);
   }
+
+  delete game;
 
   return EXIT_SUCCESS;
 }
