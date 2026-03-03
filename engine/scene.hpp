@@ -14,11 +14,8 @@ public:
 
 private:
   std::map<std::string, Scene *> edges;
+
   Scene *navigate(std::string);
 };
 
-class GameScene : public Scene {
-public:
-  Scene *process(sf::Event *, sf::RenderWindow *) override;
-};
 #endif // !ENGINE_SCENE
