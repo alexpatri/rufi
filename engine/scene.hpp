@@ -8,11 +8,12 @@
 
 class Scene {
 public:
-  virtual Scene *process(sf::Event *, sf::RenderWindow *) = 0;
   void add_edge(std::string, Scene *);
+  virtual Scene *handle_event(const sf::Event *) = 0;
+  virtual Scene *process(sf::RenderWindow *) = 0;
   virtual ~Scene() = default;
 
-private:
+protected:
   std::map<std::string, Scene *> edges;
 
   Scene *navigate(std::string);
