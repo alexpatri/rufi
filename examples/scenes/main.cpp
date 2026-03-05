@@ -1,15 +1,15 @@
 #include "scenes.hpp"
 
-Scene *Scene1::handle_event(const sf::Event *event) {
+Scene *MainScene::handle_event(const sf::Event *event) {
   if (event->type == sf::Event::KeyPressed &&
       event->key.code == sf::Keyboard::Escape) {
-    return this->navigate("2");
+    return this->navigate("pause");
   }
 
   return nullptr;
 }
 
-Scene *Scene1::process(sf::RenderWindow *window) {
+Scene *MainScene::process(sf::RenderWindow *window) {
   sf::CircleShape circle = sf::CircleShape(100.f);
   circle.setFillColor(sf::Color::Red);
   circle.setPosition(

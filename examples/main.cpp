@@ -8,13 +8,13 @@
 int main() {
   sf::RenderWindow window(sf::VideoMode(1280, 720), "Titulo da Janela");
 
-  Scene1 *scene1 = new Scene1();
-  Scene2 *scene2 = new Scene2();
+  Scene *main_scene = new MainScene();
+  Scene *pause_scene = new PauseScene();
 
-  scene1->add_edge("2", scene2);
-  scene2->add_edge("1", scene1);
+  main_scene->add_edge("pause", pause_scene);
+  pause_scene->add_edge("main", main_scene);
 
-  Scene *scene = scene1;
+  Scene *scene = main_scene;
 
   while (window.isOpen()) {
     sf::Event event;
@@ -36,11 +36,11 @@ int main() {
     }
   }
 
-  delete scene1;
-  scene1 = nullptr;
+  delete main_scene;
+  main_scene = nullptr;
 
-  delete scene2;
-  scene2 = nullptr;
+  delete pause_scene;
+  pause_scene = nullptr;
 
   return EXIT_SUCCESS;
 }
