@@ -5,20 +5,22 @@
 
 class MainScene : public Scene {
 public:
-  Scene *handle_event(const sf::Event *) override;
-  Scene *process(sf::RenderWindow *) override;
+  MainScene();
+  void handle_event(SceneManager &, const sf::Event &) override;
+  void update(SceneManager &, sf::RenderWindow &) override;
 };
 
 class PauseScene : public Scene {
 public:
-  Scene *handle_event(const sf::Event *) override;
-  Scene *process(sf::RenderWindow *) override;
+  PauseScene();
+  void handle_event(SceneManager &, const sf::Event &) override;
+  void update(SceneManager &, sf::RenderWindow &) override;
 };
 
 class GameOverScene : public Scene {
 public:
-  Scene *handle_event(const sf::Event *) override;
-  Scene *process(sf::RenderWindow *) override;
+  void handle_event(SceneManager &, const sf::Event &) override;
+  void update(SceneManager &, sf::RenderWindow &) override;
 };
 
 #endif // !SCENES

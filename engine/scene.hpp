@@ -2,21 +2,42 @@
 #define ENGINE_SCENE
 
 #include <SFML/Graphics.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Window/Window.hpp>
+#include <functional>
+#include <map>
+#include <memory>
 #include <string>
+
+class SceneManager;
+class Scene;
+
+class SceneManager {
+private:
+  std::unique_ptr<Scene> current_scene;
+
+public:
+  void set_scene(std::unique_ptr<Scene> scene);
+
+  void handle_event(const sf::Event &event);
+
+  void update(sf::RenderWindow &window);
+};
 
 class Scene {
 public:
-  void add_edge(std::string, Scene *);
-  virtual Scene *handle_event(const sf::Event *) = 0;
-  virtual Scene *process(sf::RenderWindow *) = 0;
+  using SceneFactory = std::function<std::unique_ptr<Scene>()>;
+
+  void add_edge(const std::string &key, SceneFactory factory);
+
+  virtual void handle_event(SceneManager &, const sf::Event &) = 0;
+  virtual void update(SceneManager &, sf::RenderWindow &) = 0;
+
   virtual ~Scene() = default;
 
 protected:
-  std::map<std::string, Scene *> edges;
+  std::unique_ptr<Scene> navigate(const std::string &key);
 
-  Scene *navigate(std::string);
+private:
+  std::map<std::string, SceneFactory> edges;
 };
 
 #endif // !ENGINE_SCENE

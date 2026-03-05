@@ -1,8 +1,14 @@
 #include "scene.hpp"
-#include <SFML/Graphics/CircleShape.hpp>
 
-void Scene::add_edge(std::string key, Scene *scene) {
-  this->edges[key] = scene;
+void Scene::add_edge(const std::string &key, SceneFactory factory) {
+  edges[key] = std::move(factory);
 }
 
-Scene *Scene::navigate(std::string key) { return this->edges[key]; }
+std::unique_ptr<Scene> Scene::navigate(const std::string &key) {
+  auto it = edges.find(key);
+
+  if (it == edges.end())
+    return nullptr;
+
+  return it->second();
+}

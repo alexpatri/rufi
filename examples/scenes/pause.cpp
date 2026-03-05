@@ -1,24 +1,25 @@
 #include "scenes.hpp"
 
-Scene *PauseScene::handle_event(const sf::Event *event) {
-  if (event->type == sf::Event::KeyPressed &&
-      event->key.code == sf::Keyboard::Escape) {
-    return this->navigate("main");
-  }
-
-  return nullptr;
+PauseScene::PauseScene() {
+  add_edge("main", []() { return std::make_unique<MainScene>(); });
 }
 
-Scene *PauseScene::process(sf::RenderWindow *window) {
-  sf::CircleShape circle = sf::CircleShape(100.f);
+void PauseScene::handle_event(SceneManager &manager, const sf::Event &event) {
+  if (event.type == sf::Event::KeyPressed &&
+      event.key.code == sf::Keyboard::Escape) {
+
+    manager.set_scene(navigate("main"));
+  }
+}
+
+void PauseScene::update(SceneManager &, sf::RenderWindow &window) {
+  sf::CircleShape circle(100.f);
   circle.setFillColor(sf::Color::Green);
-  circle.setPosition(
-      sf::Vector2f(window->getSize().x / 2 - circle.getRadius(),
-                   window->getSize().y / 2 - circle.getRadius()));
 
-  window->clear();
-  window->draw(circle);
-  window->display();
+  circle.setPosition(window.getSize().x / 2 - circle.getRadius(),
+                     window.getSize().y / 2 - circle.getRadius());
 
-  return nullptr;
+  window.clear();
+  window.draw(circle);
+  window.display();
 }
