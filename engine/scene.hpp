@@ -7,18 +7,23 @@
 #include <memory>
 #include <string>
 
-class SceneManager;
+struct GameContext;
+
 class Scene;
 
 class SceneManager {
 private:
   std::unique_ptr<Scene> current_scene;
+  GameContext *ctx;
 
 public:
+  SceneManager(GameContext *ctx) : ctx(ctx) {}
+
+  GameContext &context() { return *ctx; }
+  const GameContext &context() const { return *ctx; }
+
   void set_scene(std::unique_ptr<Scene> scene);
-
   void handle_event(const sf::Event &event);
-
   void update(sf::RenderWindow &window);
 };
 
