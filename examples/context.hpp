@@ -5,7 +5,6 @@
 
 struct Object {
   float velocity{5.f};
-  sf::Vector2f position{sf::Vector2f(0.f, 10.f)};
   const float max_velocity{10.f};
 };
 
@@ -19,7 +18,6 @@ struct States {
 };
 
 struct Resources {
-  sf::Texture object_texture, background_texture;
   sf::Sprite object, background;
 };
 

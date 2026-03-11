@@ -1,7 +1,9 @@
+#include "../context.hpp"
 #include "scenes.hpp"
 
 MainScene::MainScene() {
   add_edge("pause", []() { return std::make_unique<PauseScene>(); });
+  add_edge("game_over", []() { return std::make_unique<GameOverScene>(); });
 }
 
 void MainScene::handle_event(SceneManager &manager, const sf::Event &event) {
@@ -12,14 +14,19 @@ void MainScene::handle_event(SceneManager &manager, const sf::Event &event) {
   }
 }
 
-void MainScene::update(SceneManager &, sf::RenderWindow &window) {
-  sf::CircleShape circle(100.f);
-  circle.setFillColor(sf::Color::Red);
+void MainScene::update(SceneManager &manager, sf::RenderWindow &window) {
+  GameContext ctx = manager.context();
 
-  circle.setPosition(window.getSize().x / 2 - circle.getRadius(),
-                     window.getSize().y / 2 - circle.getRadius());
+  if (ctx.states.lives <= 0) {
+    manager.set_scene(navigate("game_over"));
+  }
+
+  sf::Sprite *object = &ctx.resources.object;
+  object->setPosition(
+      (window.getSize().x - object->getTexture()->getSize().x) / 2,
+      (window.getSize().y - object->getTexture()->getSize().y) / 2);
 
   window.clear();
-  window.draw(circle);
+  window.draw(*object);
   window.display();
 }

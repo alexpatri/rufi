@@ -10,6 +10,10 @@ int main() {
 
   GameContext ctx;
 
+  sf::Texture object_texture;
+  object_texture.loadFromFile("./examples/assets/img/block.png");
+  ctx.resources.object.setTexture(object_texture);
+
   SceneManager manager(&ctx);
   manager.set_scene(std::make_unique<MainScene>());
 
