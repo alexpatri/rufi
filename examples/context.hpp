@@ -6,6 +6,8 @@
 struct Object {
   float velocity{5.f};
   const float max_velocity{10.f};
+  float timer{};
+  float max_timer{30.f};
 };
 
 struct States {
@@ -13,12 +15,12 @@ struct States {
   int lives{10};
   Object object;
 
-  std::vector<sf::Sprite> objects;
   size_t max_objects{5};
 };
 
 struct Resources {
   sf::Sprite object, background;
+  std::vector<sf::Sprite> objects;
 };
 
 struct GameContext {

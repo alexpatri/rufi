@@ -15,18 +15,34 @@ void MainScene::handle_event(SceneManager &manager, const sf::Event &event) {
 }
 
 void MainScene::update(SceneManager &manager, sf::RenderWindow &window) {
-  GameContext ctx = manager.context();
+  GameContext &ctx = manager.context();
 
-  if (ctx.states.lives <= 0) {
-    manager.set_scene(navigate("game_over"));
+  if (ctx.resources.objects.size() < ctx.states.max_objects) {
+    if (ctx.states.object.timer >= ctx.states.object.max_timer) {
+      float x = static_cast<float>(
+          std::rand() %
+          static_cast<int>(window.getSize().x -
+                           ctx.resources.object.getTexture()->getSize().x));
+      ctx.resources.object.setPosition(x, 0.f);
+      ctx.resources.objects.push_back(ctx.resources.object);
+      ctx.states.object.timer = 0.f;
+    } else {
+      ctx.states.object.timer += 1.f;
+    }
   }
 
-  sf::Sprite *object = &ctx.resources.object;
-  object->setPosition(
-      (window.getSize().x - object->getTexture()->getSize().x) / 2,
-      (window.getSize().y - object->getTexture()->getSize().y) / 2);
+  for (size_t i = 0; i < ctx.resources.objects.size(); ++i) {
+    ctx.resources.objects[i].move(0.f, ctx.states.object.velocity);
+
+    if (ctx.resources.objects[i].getPosition().y > window.getSize().y) {
+      ctx.resources.objects.erase(ctx.resources.objects.begin() + i);
+      --i;
+    }
+  }
 
   window.clear();
-  window.draw(*object);
+  for (const auto &obj : ctx.resources.objects) {
+    window.draw(obj);
+  }
   window.display();
 }
