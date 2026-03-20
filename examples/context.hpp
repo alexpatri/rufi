@@ -4,23 +4,26 @@
 #include <SFML/Graphics.hpp>
 
 struct Object {
+  sf::Sprite sprite;
+
   float velocity{5.f};
-  const float max_velocity{10.f};
-  float timer{};
-  float max_timer{30.f};
+  float max_velocity{10.f};
+  bool remove{false};
 };
 
 struct States {
   int score{};
   int lives{10};
-  Object object;
+
+  float timer{};
+  float max_timer{30.f};
 
   size_t max_objects{5};
+  std::vector<Object> objects;
 };
 
 struct Resources {
   sf::Sprite object, background;
-  std::vector<sf::Sprite> objects;
 };
 
 struct GameContext {
