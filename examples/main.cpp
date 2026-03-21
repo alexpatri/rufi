@@ -5,7 +5,7 @@
 #include "scenes/scenes.hpp"
 
 int main() {
-  sf::RenderWindow window(sf::VideoMode(1280, 720), "Titulo");
+  sf::RenderWindow window(sf::VideoMode(480, 854), "Titulo");
   window.setFramerateLimit(60);
 
   GameContext ctx;
@@ -13,6 +13,13 @@ int main() {
   sf::Texture object_texture;
   object_texture.loadFromFile("./examples/assets/img/block.png");
   ctx.resources.object.setTexture(object_texture);
+
+  ctx.resources.font.loadFromFile("./examples/assets/fonts/jetbrains.ttf");
+
+  ctx.resources.score_text.setFont(ctx.resources.font);
+  ctx.resources.score_text.setFillColor(sf::Color::White);
+  ctx.resources.score_text.setPosition(5.f, 5.f);
+  ctx.resources.score_text.setCharacterSize(20);
 
   SceneManager manager(&ctx);
   manager.set_scene(std::make_unique<MainScene>());

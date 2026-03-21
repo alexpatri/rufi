@@ -2,6 +2,7 @@
 #define SCENES
 
 #include "../../engine/scene.hpp"
+#include <SFML/Graphics/Text.hpp>
 
 class MainScene : public Scene {
 public:

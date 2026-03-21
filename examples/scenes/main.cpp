@@ -1,5 +1,7 @@
 #include "../context.hpp"
 #include "scenes.hpp"
+#include <SFML/Graphics/Text.hpp>
+#include <string>
 
 MainScene::MainScene() {
   add_edge("pause", []() { return std::make_unique<PauseScene>(); });
@@ -72,6 +74,11 @@ void MainScene::update(SceneManager &manager, sf::RenderWindow &window) {
 
   // Render
   window.clear();
+
+  ctx.resources.score_text.setString("Score: " +
+                                     std::to_string(ctx.states.score));
+
+  window.draw(ctx.resources.score_text);
 
   for (const auto &obj : objs) {
     window.draw(obj.sprite);
